@@ -3,14 +3,26 @@ from rest_framework.response import Response
 from . import models, serializers
 
 # Create your views here.
-
-class ListAllImages(APIView):
-
-    # format=None으로 지정하면 json 포멧으로 응답
+class Feed(APIView):
+    
     def get(self, request, format=None):
 
-        all_image = models.Image.objects.all() # 모델안에 있는 모든 오브젝트 종류의 이미지를 가져와라
+        user = request.user
 
-        serializer = serializers.ImageSerializer(all_images, many=True)
+        following_users = user.following.all()
 
-        return Response(data=serializer.data)
+        image_list = []
+
+        for following_user in following_users:
+             
+            user_images = following_user.images.all()[:2]
+
+            for image in user_images:
+
+                image_list.append(image)
+
+        sorted_list = sorted(image_list, key=lambda image: image.created_at, reverse=True)
+
+        serializer = serializers.ImageSerializer(sorted_list, many=True)
+
+        return Response(serializer.data)

@@ -2,7 +2,23 @@ from rest_framework import serializers
 from . import models
 from jingram.users import models as user_models
 
+
 # 시리얼라이저는 json(javascript)과 파이썬의 연결다리역할
+
+
+class UserProfileImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Image
+        fields = (
+            'id',
+            'file',
+            'comment_count',
+            'like_count'
+        )
+
+
+
 class FeedUserSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -15,7 +31,7 @@ class FeedUserSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
 
-    creator = FeedUserSerializer()
+    creator = FeedUserSerializer(read_only=True)
 
     class Meta:
         model = models.Comment

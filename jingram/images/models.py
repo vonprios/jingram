@@ -1,4 +1,5 @@
 from django.db import models
+from taggit.managers import TaggableManager
 from jingram.users import models as user_models
 
 # Create your models here.
@@ -20,7 +21,8 @@ class Image(TimeStampedModel):
     file = models.ImageField()
     location = models.CharField(max_length=140)
     caption = models.TextField()
-    creator = models.ForeignKey(user_models.User, null=True, related_name='images')  
+    creator = models.ForeignKey(user_models.User, null=True, related_name='images')
+    tags = TaggableManager()
 
     @property
     def like_count(self):

@@ -66,3 +66,13 @@ class ImageSerializer(serializers.ModelSerializer):
             'creator'
         )
 
+
+class SmallImageSerializer(serializers.ModelSerializer):
+
+    """ Used for the notifications """
+
+    class Meta:
+        model = models.Image
+        fields = (
+            'file',            
+        )

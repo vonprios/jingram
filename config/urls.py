@@ -15,6 +15,7 @@ urlpatterns = [
     # User management
     url(r'^users/', include('jingram.users.urls', namespace='users')),
     url(r'^images/', include('jingram.images.urls', namespace='images')),
+    url(r'^notifications/', include('jingram.notifications.urls', namespace='notifications')),
     url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here

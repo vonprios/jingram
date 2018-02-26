@@ -58,6 +58,7 @@ LOCAL_APPS = [
     'jingram.users.apps.UsersConfig',
     # Your stuff: custom apps go here
     'jingram.images.apps.ImagesConfig',
+    'jingram.notifications.apps.NotificationsConfig' # notifications app
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

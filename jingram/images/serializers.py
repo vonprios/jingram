@@ -63,7 +63,8 @@ class ImageSerializer(serializers.ModelSerializer):
             'caption',
             'comments',
             'like_count',
-            'creator'
+            'creator',
+            'created_at'
         )
 
 
@@ -75,4 +76,15 @@ class SmallImageSerializer(serializers.ModelSerializer):
         model = models.Image
         fields = (
             'file',            
+        )
+
+
+class InputImageSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Image
+        fields = (
+            'file',
+            'location',
+            'caption',
         )

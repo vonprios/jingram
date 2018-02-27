@@ -2,11 +2,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from . import models, serializers
+from jingram.users import models as user_models
+from jingram.users import serializers as user_serializers
 from jingram.notifications import views as notification_views
 
 # Create your views here.
 class Feed(APIView):
-    
+
     def get(self, request, format=None):
 
         user = request.user
@@ -16,7 +18,7 @@ class Feed(APIView):
         image_list = []
 
         for following_user in following_users:
-             
+
             user_images = following_user.images.all()[:2]
 
             for image in user_images:
@@ -38,6 +40,18 @@ class Feed(APIView):
 class LikeImage(APIView):
 
     def get(self, request, image_id, format=None):
+
+        likes = models.Like.objects.filter(image__id=image_id) # image__id id가 이미지 오브젝트 안에 있다는 뜻
+
+        like_creator_ids = likes.values('creator_id')
+
+        users = user_models.User.objects.filter(id__in=like_creator_ids)
+
+        serializer = user_serializers.ListUserSerializer(users, many=True) # many=True 여러개를 시리얼라이징 할꺼다라고 알려줌
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, image_id, format=None):
 
         user = request.user
 
@@ -158,3 +172,40 @@ class ModerateComments(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ImageDetail(APIView):
+
+    def get(self, request, image_id, format=None):
+
+        user = request.user
+
+        try:
+            image = models.Image.objects.get(id=image_id)
+        except models.Image.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.ImageSerializer(image)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, image_id, format=None): # put = 업데이트 전용
+
+        user = request.user
+
+        try:
+            image = models.Image.objects.get(id=image_id, creator=user)
+        except models.Image.DoesNotExist:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        serializer = serializers.InputImageSerializer(image, data=request.data, partial=True) # partial=True 필드의 값을 다 입력하지 않아도 된다
+
+        if serializer.is_valid():
+
+            serializer.save(creator=user)
+
+            return Response(data=serializer.data, status=status.HTTP_204_NO_CONTENT)
+
+        else:
+
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)

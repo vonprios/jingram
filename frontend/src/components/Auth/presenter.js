@@ -10,8 +10,8 @@ const Auth = (props, context) => (
     <div className={styles.column}>
       <div className={`${styles.whiteBox} ${styles.formBox}`}>
         <img src={require("images/logo.png")} alt="Logo" />
-        {props.action == "login" && <LoginForm />}
-        {props.action == "signup" && <SignupForm />}
+        {props.action === "login" && <LoginForm />}
+        {props.action === "signup" && <SignupForm />}
       </div>
       <div className={styles.whiteBox}>
         {props.action === "login" && (

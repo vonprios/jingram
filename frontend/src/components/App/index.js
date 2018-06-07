@@ -2,9 +2,13 @@ import { connect } from "react-redux"; // 컴포넌트를 리덕스 스토어에
 import Container from "./container";
 
 const mapStateToProps = (state, ownProps) => {
-  const { user } = state;
+  const {
+    user,
+    routing: { location }
+  } = state;
   return {
-    isLoggedIn: user.isLoggedIn
+    isLoggedIn: user.isLoggedIn,
+    pathname: location.pathname
   };
 };
 

@@ -219,12 +219,8 @@ class ImageDetail(APIView):
         image = self.find_own_image(image_id, user)
 
         if image is None:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        try:
-            image = models.Image.objects.get(id=image_id, creator=user)
-        except models.Image.DoesNotExist:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         serializer = serializers.InputImageSerializer(image, data=request.data, partial=True) # partial=True 필드의 값을 다 입력하지 않아도 된다
 
@@ -246,7 +242,7 @@ class ImageDetail(APIView):
 
         if image is None:
 
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         image.delete()
 

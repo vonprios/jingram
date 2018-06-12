@@ -35,7 +35,7 @@
   }
   .divider {
     text-transform: uppercase;
-    color: $dark-grey;
+    color: $dark-gray;
     font-weight: 600;
     margin: 20px 0;
     margin-bottom: 20px;
@@ -44,7 +44,7 @@
       content: "";
       width: 42%;
       position: absolute;
-      background-color: $dark-grey;
+      background-color: $dark-gray;
       height: 1px;
       left: 0;
       top: 6px;
@@ -54,7 +54,7 @@
       content: "";
       width: 42%;
       position: absolute;
-      background-color: $dark-grey;
+      background-color: $dark-gray;
       height: 1px;
       right: 0;
       top: 6px;
@@ -83,7 +83,7 @@
   }
   .signup-header {
     font-size: 17px;
-    color: $dark-grey;
+    color: $dark-gray;
     font-weight: 600;
     margin-bottom: 20px;
   }
@@ -92,7 +92,7 @@
     margin: 0 auto;
     margin-top: 20px;
     line-height: 20px;
-    color: $dark-grey;
+    color: $dark-gray;
     span {
       font-weight: 600;
       cursor: pointer;
